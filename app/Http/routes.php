@@ -11,6 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'WheatonController@getIndex');
+Route::get('/addrecipes', 'WheatonController@getAdd');
+Route::post('/addrecipes', 'WheatonController@postAdd');
+Route::get('/findrecipes', 'WheatonController@getFind');
+Route::post('/findrecipes', 'WheatonController@postFind');
+Route::get('/editrecipes', 'WheatonController@getEdit');
+Route::post('/editrecipes', 'WheatonController@postEdit');
