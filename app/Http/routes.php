@@ -18,3 +18,5 @@ Route::get('/findrecipes', 'WheatonController@getFind');
 Route::post('/findrecipes', 'WheatonController@postFind');
 Route::get('/editrecipes', 'WheatonController@getEdit');
 Route::post('/editrecipes', 'WheatonController@postEdit');
+
+Route::get('/test1', 'TestController@testScrape');
