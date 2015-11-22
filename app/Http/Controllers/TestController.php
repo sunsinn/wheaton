@@ -23,7 +23,7 @@ class TestController extends Controller {
         $s = str_replace('Notes:', '', $s);
         $s = str_replace('Equivalents:', '', $s);
         $s = str_replace('=', '', $s);
-        $s = trim($s);
+        $s = str_replace('  ', ' ', $s);
         print $s."\n";
     });
 

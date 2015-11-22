@@ -11,12 +11,28 @@
 |
 */
 
+Route::get('/login', 'Auth\AuthController@getLogin');
+# Process login form
+Route::post('/login', 'Auth\AuthController@postLogin');
+
+Route::get('/logout', 'Auth\AuthController@getLogout');
+# Show registration form
+Route::get('/register', 'Auth\AuthController@getRegister');
+# Process registration form
+Route::post('/register', 'Auth\AuthController@postRegister');
+
+
 Route::get('/', 'WheatonController@getIndex');
-Route::get('/addrecipes', 'WheatonController@getAdd');
-Route::post('/addrecipes', 'WheatonController@postAdd');
-Route::get('/findrecipes', 'WheatonController@getFind');
-Route::post('/findrecipes', 'WheatonController@postFind');
-Route::get('/editrecipes', 'WheatonController@getEdit');
-Route::post('/editrecipes', 'WheatonController@postEdit');
+
+//Route::group(['middleware' => 'auth'], function() {
+  Route::get('/add', 'WheatonController@getAdd');
+  Route::post('/add', 'WheatonController@postAdd');
+  Route::get('/edit', 'WheatonController@getEdit');
+  Route::post('/edit', 'WheatonController@postEdit');
+//});
+
+
+Route::get('/search', 'WheatonController@getSearch');
+Route::post('/search', 'WheatonController@postSearch');
 
 Route::get('/test1', 'TestController@testScrape');
