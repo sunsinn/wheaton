@@ -14,25 +14,22 @@ class IngredientsTableSeeder extends Seeder
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'potatoTest'
-      'parallel_names' => 'spudTest',
-      'parent_id' => 1,
+      'name' => 'potatoTest',
+
       ]);
 
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'cornTest'
-      'parallel_names' => 'sweetTest cornTest, maizeTest',
-      'parent_id' => 2,
+      'name' => 'cornTest',
+
       ]);
 
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'eggplantTest'
-      'parallel_names' => 'aubergineTest',
-      'parent_id' > 3,
+      'name' => 'eggplantTest',
+
       ]);
 
     }

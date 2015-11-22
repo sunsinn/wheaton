@@ -14,22 +14,19 @@ class CategoriesTableSeeder extends Seeder
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'tubersTest'
-      'parent_id' => 'null',
+      'name' => 'tubersTest',
       ]);
 
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'grainsTest'
-      'parent_id' => 'null',
+      'name' => 'grainsTest',
       ]);
 
       DB::table('categories')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'fruit vegetablesTest'
-      'parent_id' => 'null',
+      'name' => 'fruit vegetablesTest',
       ]);
 
     }

@@ -14,10 +14,11 @@ class CreateIngredientsTable extends Migration
     {
       Schema::create('ingredients', function (Blueprint $table) {
 
-      $table->increments('id');
-      $table->timestamps();
-      $table->string('name');
-      $table->string('parallel_name');
+        $table->increments('id');
+        $table->timestamps();
+        $table->string('name');
+        $table->string('parallel_name');
+      });
     }
 
     /**

@@ -18,18 +18,7 @@
         <input type='hidden' name='id' value='{{ $recipe->id }}'>
 
         <div class='form-group'>
-            <label>URL:</label>
-            <input
-                type='text'
-                id='url'
-                name='url'
-                value='{{$recipe->rul}}'
-            >
-        </div>
-
-
-        <div class='form-group'>
-            <label for='title'>Title(URL):</label>
+            <label for='title'>Title:</label>
             <input
                 type='text'
                 id='title'
@@ -39,12 +28,22 @@
         </div>
 
         <div class='form-group'>
-            <label for='Tags'>Tags:</label>
+            <label>URL:</label>
             <input
                 type='text'
-                id='tags'
-                name="tags"
-                value='{{$recipe->tags}}'
+                id='url'
+                name='url'
+                value='{{$recipe->rul}}'
+            >
+        </div>
+
+        <div class='form-group'>
+            <label for='Ingredients'>Ingredients:</label>
+            <input
+                type='text'
+                id='ingredients'
+                name='ingredients'
+                value='{{$recipe->ingredients}}'
                 >
         </div>
         <br>

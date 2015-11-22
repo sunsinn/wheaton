@@ -14,14 +14,14 @@ class CreateRecipesTable extends Migration
     {
      Schema::create('recipes', function (Blueprint $table) {
 
-     $table->increments('id');
-     $table->timestamps();
-     $table->string('url');
-     $table->string('title');
-     $table->string('tags');
+       $table->increments('id');
+       $table->timestamps();
+       $table->string('url');
+       $table->string('title');
+       $table->string('ingredients');
 
 
- });
+      });
     }
 
     /**

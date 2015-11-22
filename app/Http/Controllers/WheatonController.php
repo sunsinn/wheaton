@@ -3,7 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Goutte\Client;
+
 
 
 class WheatonController extends Controller {
@@ -24,25 +24,30 @@ class WheatonController extends Controller {
        $this->validate(
            $request,
            [
-               'url' => 'required|min:5',
-               'tags' => 'required',
+               'url' => 'required|url',
+               'ingredients' => 'required',
              ]
        );
 
        $recipe = new \App\Recipe();
+
        $recipe->url = $request->url;
+       $recipe->title = $request->title;
 
-       $client = new Client();
-       $crawler = $client->request('GET', $request->url);
-       $crawler->filter('h2 > a')->each(function ($node) {
-          $recipe->title = $node->text();
-        });
+       //$recipe->ingredients = $request->ingredients;
 
-        $recipe->tags = $request->tags;
-
-        $recipe->save();
+       $recipe->save();
 
         \Session::flash('flash_message','Recipe added');
-        return redirect('/edit');
-  }
+        return redirect('/add');
+   }
+
+   public function getEdit($id = null) {
+     $recipe = \App\Recipe::find($id);
+        if(is_null($recipe)) {
+          \Session::flash('flash_message','Recipe not found.');
+        return redirect('/index');
+    }
+    return view('edit')->with('recipe',$recipe);
+     }
 }

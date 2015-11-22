@@ -10,9 +10,19 @@
 
 @section('content')
 <h1> Add a new recipe! </h1>
-<form method='POST' action='edit'>
+<form method='POST' action='/add'>
 
     <input type='hidden' value='{{ csrf_token() }}' name='_token'>
+
+    <div class='form-group'>
+        <label>Title:</label>
+        <input
+            type='text'
+            id='title'
+            name='title'
+            value='{{ old('title','') }}'
+        >
+    </div>
 
     <div class='form-group'>
         <label>URL:</label>
@@ -24,13 +34,14 @@
         >
     </div>
 
+
     <div class='form-group'>
-        <label for='tags'> Tags:</label>
+        <label for='tags'> Ingredients:</label>
         <input
             type='text'
-            id='tags'
-            name="tags"
-            value='{{ old('tags','') }}'
+            id='ingredients'
+            name="ingredients"
+            value='{{ old('ingredients','') }}'
         >
     </div>
     <button type="submit" class="btn btn-primary">Add it!</button>

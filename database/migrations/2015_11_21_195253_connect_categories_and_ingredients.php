@@ -13,8 +13,8 @@ class ConnectCategoriesAndIngredients extends Migration
     public function up()
     {
       Schema::table('ingredients', function (Blueprint $table) {
-          $table->integer('parent_id')->unsigned();
-          $table->foreign('parent_id')->references('id')->on('categories');
+          $table->integer('category_id')->unsigned();
+          $table->foreign('category_id')->references('id')->on('categories');
 
       });
     }
@@ -26,7 +26,10 @@ class ConnectCategoriesAndIngredients extends Migration
      */
     public function down()
     {
-      $table->dropForeign('ingredients_parent_id_foreign');
-          $table->dropColumn('parent_id');
-    }
+      Schema::table('ingredients', function (Blueprint $table) {
+        $table->dropForeign('ingredients_category_id_foreign');
+        $table->dropColumn('category_id');
+
+    });
+  }
 }

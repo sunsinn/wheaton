@@ -27,7 +27,7 @@ Route::get('/', 'WheatonController@getIndex');
 //Route::group(['middleware' => 'auth'], function() {
   Route::get('/add', 'WheatonController@getAdd');
   Route::post('/add', 'WheatonController@postAdd');
-  Route::get('/edit', 'WheatonController@getEdit');
+  Route::get('/edit/{id?}', 'WheatonController@getEdit');
   Route::post('/edit', 'WheatonController@postEdit');
 //});
 

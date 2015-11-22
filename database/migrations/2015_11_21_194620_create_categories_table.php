@@ -14,9 +14,10 @@ class CreateCategoriesTable extends Migration
     {
       Schema::create('categories', function (Blueprint $table) {
 
-      $table->increments('id');
-      $table->timestamps();
-      $table->string('name');
+        $table->increments('id');
+        $table->timestamps();
+        $table->string('name');
+      });
     }
 
     /**
@@ -26,6 +27,6 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('ingredients');
+        Schema::drop('categories');
     }
 }
