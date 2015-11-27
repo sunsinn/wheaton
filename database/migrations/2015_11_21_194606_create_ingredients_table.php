@@ -18,6 +18,7 @@ class CreateIngredientsTable extends Migration
         $table->timestamps();
         $table->string('name');
         $table->string('parallel_name');
+        $table->string('category');
       });
     }
 

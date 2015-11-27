@@ -36,7 +36,7 @@
 
 
     <div class='form-group'>
-        <label for='tags'> Ingredients:</label>
+        <label for='tags'> Ingredients (separated by commas):</label>
         <input
             type='text'
             id='ingredients'

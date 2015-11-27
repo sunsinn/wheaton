@@ -34,11 +34,28 @@ class WheatonController extends Controller {
        $recipe->url = $request->url;
        $recipe->title = $request->title;
 
-       //$recipe->ingredients = $request->ingredients;
-
        $recipe->save();
 
-        \Session::flash('flash_message','Recipe added');
+       $ingredients = explode(',', $request->ingredients);
+       foreach ($ingredients as $ingredient) {
+         $ingToSave = \App\Ingredient::where('name','LIKE',$ingredient)->first();
+         if (!isset($ingToSave)) {
+           $ingToSave = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$ingredient.'%')->first();
+         }
+
+         if (isset($ingToSave)) {
+           $recipe->ingredients()->save($ingToSave);
+         }
+         else {
+           $newIng = new \App\Ingredient();
+           $newIng->name = $ingredient;
+           $recipe->ingredients()->save($newIng);
+         }
+
+       }
+
+
+        \Session::flash('flash_message','Recipe added!');
         return redirect('/add');
    }
 
