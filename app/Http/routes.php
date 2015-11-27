@@ -36,10 +36,10 @@ Route::get('/', 'WheatonController@getIndex');
 Route::get('/search', 'WheatonController@getSearch');
 Route::post('/search', 'WheatonController@postSearch');
 
-Route::get('/browserec', 'WheatonController@browseRec');
-Route::get('/browseing', 'WheatonController@browseIng');
+Route::get('/browserecipes', 'WheatonController@browseRecipes');
+Route::get('/browseingredients', 'WheatonController@browseIngredients');
 
 Route::get('/show/{id}', 'WheatonController@show');
-Route::get('showrec/{if}', 'WheatonController@showRec');
+Route::get('showrecipes/{if}', 'WheatonController@showRecipes');
 
 Route::get('/test1', 'TestController@testScrape');

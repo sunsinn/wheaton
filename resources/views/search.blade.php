@@ -36,6 +36,6 @@
     <button type="submit">Search</button>
 </form>
 <br>
-Or: <a href = "/browserec"><button type = "button">Browse all recipes</a></browse>
-    <a href = "/browseing"><button type = "button">Browse all ingredients</a></browse>
+Or: <a href = "/browserecipes"><button type = "button">Browse all recipes</a></browse>
+    <a href = "/browseingredients"><button type = "button">Browse all ingredients</a></browse>
 @stop

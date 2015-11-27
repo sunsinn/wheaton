@@ -114,13 +114,25 @@ class WheatonController extends Controller {
        return view ('search');
      }
 
-     public function browseRec () {
+     public function browseRecipes () {
         $recipes = \App\Recipe::all();
         return view ('show')->with('recipes', $recipes);
      }
 
-     public function browseIng () {
+     public function browseIngredients () {
         $ingredients = \App\Ingredient::all();
         return view ('show')->with('ingredients', $ingredients);
+     }
+
+     public function show ($id = null) {
+        $recipe = \App\Recipe::find($id);
+        $ingredients = $recipe->ingredients()->get();
+        $ingString = '';
+        foreach ($ingredients as $ingredient) {
+          $ingString .= $ingredient->name.', ';
+        }
+        $ingString = chop($ingString, ', ');
+        return view ('show')->with(['singleRecipe'=>$recipe, 'ingredientString'=>$ingString]);
+
      }
 }
