@@ -9,8 +9,6 @@
 
     <h1>Edit</h1>
 
-    @include('errors')
-
     <form method='POST' action='edit'>
 
         <input type='hidden' value='{{ csrf_token() }}' name='_token'>
@@ -33,7 +31,7 @@
                 type='text'
                 id='url'
                 name='url'
-                value='{{$recipe->rul}}'
+                value='{{$recipe->url}}'
             >
         </div>
 
@@ -43,11 +41,12 @@
                 type='text'
                 id='ingredients'
                 name='ingredients'
-                value='{{$recipe->ingredients}}'
+                value='{{$ingredients}}'
                 >
         </div>
         <br>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit">Save changes</button>
+        <button type="submit" formaction="/delete">Delete recipe</button>
     </form>
 
 @stop

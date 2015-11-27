@@ -22,14 +22,14 @@ class RecipesTableSeeder extends Seeder
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
       'url' => 'http://veggiezest.com/2012/06/29/buttermilk-cornmeal-pancakes-with-corn-salsa/',
-      'title' => 'Buttermilk, Cornmeal Pancakes with Corn Salsa | veggiezest',
+      'title' => 'Buttermilk, Cornmeal Pancakes with Corn Salsa',
   ]);
 
   DB::table('recipes')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
       'url' => 'http://herbivoracious.com/2012/07/thai-basil-eggplant-recipe.html',
-      'title' => 'Thai Basil Eggplant - Recipe | Herbivoracious - Vegetarian Recipe Blog - Easy Vegetarian Recipes, Vegetarian Cookbook, Kosher Recipes, Meatless Recipes',
+      'title' => 'Thai Basil Eggplant',
 
   ]);
     }

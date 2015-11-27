@@ -34,6 +34,6 @@ class CreateIngredientRecipeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('recipe_ingredient');
+        Schema::drop('ingredient_recipe');
     }
 }
