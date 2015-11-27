@@ -106,4 +106,21 @@ class WheatonController extends Controller {
        return redirect('/');
      }
 
+     public function getSearch () {
+       return view ('search');
+     }
+
+     public function postSearch () {
+       return view ('search');
+     }
+
+     public function browseRec () {
+        $recipes = \App\Recipe::all();
+        return view ('show')->with('recipes', $recipes);
+     }
+
+     public function browseIng () {
+        $ingredients = \App\Ingredient::all();
+        return view ('show')->with('ingredients', $ingredients);
+     }
 }

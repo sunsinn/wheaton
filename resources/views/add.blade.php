@@ -5,7 +5,7 @@
 @stop
 
 @section('head')
-    {{-- <link href="/css/books/create.css" type='text/css' rel='stylesheet'> --}}
+  {{-- css --}}  
 @stop
 
 @section('content')
