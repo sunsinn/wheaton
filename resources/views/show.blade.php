@@ -25,7 +25,7 @@
   Url: <a href = '{{ $singleRecipe->url }}'>{{ $singleRecipe->url }}</a><br>
   Title: {{ $singleRecipe->title }}</br>
   Ingredients: {{ $ingredientString }}<br>
-  <a href = '/edit'><button type="button">Edit or Delete</button></a>
+  <a href = '/edit/{{ $singleRecipe->id }}'><button type="button">Edit or Delete</button></a>
 @endif
 
 
