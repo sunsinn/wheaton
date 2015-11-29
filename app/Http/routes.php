@@ -28,7 +28,7 @@ Route::get('/', 'WheatonController@getIndex');
   Route::get('/add', 'WheatonController@getAdd');
   Route::post('/add', 'WheatonController@postAdd');
   Route::get('/edit/{id?}', 'WheatonController@getEdit');
-  Route::post('/edit', 'WheatonController@postEdit');
+  Route::post('/edit/{id?}', 'WheatonController@postEdit');
   Route::post('/delete', 'WheatonController@delete');
 //});
 

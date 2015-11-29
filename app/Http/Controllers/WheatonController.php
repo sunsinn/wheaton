@@ -57,7 +57,6 @@ class WheatonController extends Controller {
 
     }
 
-
     \Session::flash('flash_message','Recipe added!');
     return redirect('/add');
 }
@@ -95,6 +94,7 @@ public function postEdit(Request $request) {
 
   ## removes pivot table entry for old ingredients and resets
   $recipe->ingredients()->detach($request->id);
+
   $ingredients = explode(',', $request->ingredients);
   foreach ($ingredients as $ingredient) {
     $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->first();
@@ -117,8 +117,7 @@ public function postEdit(Request $request) {
 
   $recipe->save();
   \Session::flash('flash_message','Recipe updated!');
-  return view('edit')->with(['recipe'=>$recipe, 'ingredients'=>$request->ingredients]);
-
+  return redirect('/edit/'.$request->id);
 }
 
 public function delete (Request $request) {
