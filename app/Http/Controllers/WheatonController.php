@@ -17,6 +17,11 @@ class WheatonController extends Controller {
   }
 
   public function getAdd() {
+
+    if(!\Auth::check() ) {
+          \Session::flash('flash_message','You have to be logged in to add or edit recipes');
+          return redirect('/');
+      }
     return view('add');
   }
 
@@ -46,6 +51,11 @@ class WheatonController extends Controller {
 }
 
 public function getEdit($id = null) {
+
+  if(!\Auth::check() ) {
+        \Session::flash('flash_message','You have to be logged in to add or edit recipes');
+        return redirect('/');
+    }
   $recipe = \App\Recipe::find($id);
   if(is_null($recipe)) {
     \Session::flash('flash_message','Recipe not found.');
@@ -167,6 +177,12 @@ public function show ($id = null) {
   $ingString = chop($ingString, ', ');
   return view ('show')->with(['singleRecipe'=>$recipe, 'ingredientString'=>$ingString]);
 
+}
+
+public function showRecipes ($id = null) {
+  $ingredient = \App\Ingredient::find($id);
+  $recipes = $ingredient->recipes()->get();
+  return view ('show')->with('recipes', $recipes);
 }
 
 

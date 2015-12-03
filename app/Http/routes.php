@@ -24,13 +24,13 @@ Route::post('/register', 'Auth\AuthController@postRegister');
 
 Route::get('/', 'WheatonController@getIndex');
 
-//Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth'], function() {
   Route::get('/add', 'WheatonController@getAdd');
   Route::post('/add', 'WheatonController@postAdd');
   Route::get('/edit/{id?}', 'WheatonController@getEdit');
   Route::post('/edit/{id?}', 'WheatonController@postEdit');
   Route::post('/delete', 'WheatonController@delete');
-//});
+});
 
 
 Route::get('/search', 'WheatonController@getSearch');
