@@ -16,7 +16,7 @@ class IngredientsTableSeeder extends Seeder
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
       'name' => 'potatoesTest',
       'parallel_name' => 'spudsTest',
-      'category' => 'Tubers',
+      'category' => 'TubersTest',
 
       ]);
 
@@ -25,7 +25,7 @@ class IngredientsTableSeeder extends Seeder
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
       'name' => 'cornTest',
       'parallel_name' => 'maizeTest',
-      'category' => 'Grains',
+      'category' => 'GrainsTest',
 
       ]);
 

@@ -22,9 +22,10 @@
     <a href = '/showrecipes/{{ $ingredient->id }}'>{{ $ingredient->name }}</a><br>
   @endforeach
 @elseif(isset($singleRecipe))
+  <h1>Recipe</h1>
   Url: <a href = '{{ $singleRecipe->url }}'>{{ $singleRecipe->url }}</a><br>
   Title: {{ $singleRecipe->title }}</br>
-  Ingredients: {{ $ingredientString }}<br>
+  Ingredients: {{ $ingredientString }}<br><br>
   <a href = '/edit/{{ $singleRecipe->id }}'><button type="button">Edit or Delete</button></a>
 @endif
 

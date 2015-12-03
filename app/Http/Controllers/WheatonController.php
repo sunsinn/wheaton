@@ -115,10 +115,17 @@ public function postSearch(Request $request) {
   $recipes = new \App\Recipe();
 
   if (!empty($request->title)) {
-    $recipes = \App\Recipe::where('title','LIKE','%'.$request->title.'%')->get();
+    if ($request->mineall ==  'mine') {
+      $recipes = \App\Recipe::where('title','LIKE','%'.$request->title.'%')->where('user_id','=',\Auth::id())->get();
+    }
+    else {
+      $recipes = \App\Recipe::where('title','LIKE','%'.$request->title.'%')->get();
+    }
+
     return view ('search')->with('recipes', $recipes);
   }
   elseif (!empty($request->ingredient)) {
+
     $ingredient = \App\Ingredient::where('name', 'LIKE', '%'.$request->ingredient.'%')->first();
 
     ## if ingredient isn't found, search under other names
@@ -131,13 +138,22 @@ public function postSearch(Request $request) {
       return view ('search');
     }
 
-    $recipes =  $ingredient->recipes()->get();
+    if ($request->mineall ==  'mine') {
+      $recipes =  $ingredient->recipes()->where('user_id','=',\Auth::id())->get();
+    }
+    else {
+      $recipes =  $ingredient->recipes()->get();
+    }
+
+
 
     ## try broader category if no recipes are found
     if (empty($recipes)) {
       $category = $ingredient->category;
-      $ingredient = \App\Ingredient::where('category', 'LIKE', '%'.$category.'%')->get();
-      $recipes =  $ingredient->recipes()->get();
+      $subs = \App\Ingredient::where('category', 'LIKE', '%'.$category.'%')->get();
+      foreach ($subs as $sub) {
+        $recipes = array_merge($recipes, $sub->recipes()->get());
+      }
       if (!empty($recipes)) {
         \Session::flash('flash_message','No recipes found with this ingredient - try using it in one of these');
         return view ('search')->with('recipes', $recipes);
@@ -158,12 +174,17 @@ public function postSearch(Request $request) {
 }
 
 public function browseRecipes () {
-  $recipes = \App\Recipe::all();
+  $recipes = \App\Recipe::orderBy('title')->get();
+  return view ('show')->with('recipes', $recipes);
+}
+
+public function browseMyRecipes () {
+  $recipes = \App\Recipe::where('user_id','=',\Auth::id())->orderBy('title')->get();
   return view ('show')->with('recipes', $recipes);
 }
 
 public function browseIngredients () {
-  $ingredients = \App\Ingredient::all();
+  $ingredients = \App\Ingredient::orderBy('name')->get();
   return view ('show')->with('ingredients', $ingredients);
 }
 

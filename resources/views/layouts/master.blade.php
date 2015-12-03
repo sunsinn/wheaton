@@ -12,7 +12,7 @@
 
     {{-- Yield any page specific CSS files or anything else you might want in the <head> --}}
     @yield('head')
-
+    <link href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/journal/bootstrap.min.css' rel='stylesheet'>
 </head>
 <body>
 
@@ -27,19 +27,17 @@
     </header>
 
     <nav>
-        <ul>
             @if(Auth::check())
-                <li><a href='/'>Home</a></li>
-                <li><a href='/search'>Find a recipe</a></li>
-                <li><a href='/add'>Add a new recipe</a></li>
-                <li><a href='/logout'>Log out</a></li>
+                <a href='/'>Home</a> +
+                <a href='/search'>Find a recipe</a> +
+                <a href='/add'>Add a new recipe</a> +
+                <a href='/logout'>Log out</a>
             @else
-                <li><a href='/'>Home</a></li>
-                <li><a href='/search'>Find a recipe</a></li>
-                <li><a href='/login'>Log in</a></li>
-                <li><a href='/register'>Register</a></li>
+                <a href='/'>Home</a> +
+                <a href='/search'>Find a recipe</a> +
+                <a href='/login'>Log in</a> +
+                <a href='/register'>Register</a>
             @endif
-        </ul>
     </nav>
 
     <section>

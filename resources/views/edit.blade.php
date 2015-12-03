@@ -19,6 +19,7 @@
             <label for='title'>Title:</label>
             <input
                 type='text'
+                size='75'
                 id='title'
                 name="title"
                 value='{{$recipe->title}}'
@@ -29,6 +30,7 @@
             <label>URL:</label>
             <input
                 type='text'
+                size='75'
                 id='url'
                 name='url'
                 value='{{$recipe->url}}'
@@ -39,6 +41,7 @@
             <label for='Ingredients'>Ingredients:</label>
             <input
                 type='text'
+                size='75'
                 id='ingredients'
                 name='ingredients'
                 value='{{$ingredients}}'

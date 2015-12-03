@@ -5,7 +5,7 @@
 @stop
 
 @section('head')
-  {{-- css --}}  
+  {{-- css --}}
 @stop
 
 @section('content')
@@ -18,6 +18,7 @@
         <label>Title:</label>
         <input
             type='text'
+            size='75'
             id='title'
             name='title'
             value='{{ old('title','') }}'
@@ -28,6 +29,7 @@
         <label>URL:</label>
         <input
             type='text'
+            size='75'
             id='url'
             name='url'
             value='{{ old('url','') }}'
@@ -39,6 +41,7 @@
         <label for='tags'> Ingredients (separated by commas):</label>
         <input
             type='text'
+            size='75'
             id='ingredients'
             name="ingredients"
             value='{{ old('ingredients','') }}'

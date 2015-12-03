@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function() {
   Route::get('/edit/{id?}', 'WheatonController@getEdit');
   Route::post('/edit/{id?}', 'WheatonController@postEdit');
   Route::post('/delete', 'WheatonController@delete');
+  Route::get('/browsemyrecipes', 'WheatonController@browseMyRecipes');
 });
 
 
