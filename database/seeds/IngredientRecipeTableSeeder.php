@@ -12,9 +12,9 @@ class IngredientRecipeTableSeeder extends Seeder
   public function run()
   {
     $recipes =[
-      'baked potatoes with wild mushroom ragù' => ['potatoTest'],
+      'baked potatoes with wild mushroom ragù' => ['potatoesTest'],
       'Buttermilk, Cornmeal Pancakes with Corn Salsa' => ['cornTest'],
-      'Thai Basil Eggplant' => ['eggplantTest']
+      'Thai Basil Eggplant' => ['eggplantsTest']
     ];
 
 

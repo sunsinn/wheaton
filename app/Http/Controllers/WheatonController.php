@@ -36,26 +36,10 @@ class WheatonController extends Controller {
 
     $recipe->save();
 
-    $ingredients = explode(',', $request->ingredients);
-    foreach ($ingredients as $ingredient) {
-      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->first();
+    $ingSave = new \App\Ingredient();
+    $ingSave->ingredientsFromString($request->ingredients, $recipe);
 
-      ## Checks cross references if ingredient name isn't found
-      if (!isset($ingToSave)) {
-        $ingToSave = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$ingredient.'%')->first();
-      }
 
-      ## Links ingredient to recipe, or adds new ingredient and links
-      if (isset($ingToSave)) {
-        $recipe->ingredients()->save($ingToSave);
-      }
-      else {
-        $newIng = new \App\Ingredient();
-        $newIng->name = $ingredient;
-        $recipe->ingredients()->save($newIng);
-      }
-
-    }
 
     \Session::flash('flash_message','Recipe added!');
     return redirect('/add');
@@ -92,36 +76,20 @@ public function postEdit(Request $request) {
   $recipe->url = $request->url;
   $recipe->title = $request->title;
 
-  ## removes pivot table entry for old ingredients and resets
-  $recipe->ingredients()->detach($request->id);
-
-  $ingredients = explode(',', $request->ingredients);
-  foreach ($ingredients as $ingredient) {
-    $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->first();
-
-    ## Checks cross references if ingredient name isn't found
-    if (!isset($ingToSave)) {
-      $ingToSave = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$ingredient.'%')->first();
-    }
-
-    ## Links ingredient to recipe, or adds new ingredient and links
-    if (isset($ingToSave)) {
-      $recipe->ingredients()->save($ingToSave);
-    }
-    else {
-      $newIng = new \App\Ingredient();
-      $newIng->name = $ingredient;
-      $recipe->ingredients()->save($newIng);
-    }
-  }
-
   $recipe->save();
+
+  $ingredients = $request->ingredients;
+  $recipe->ingredients()->detach();
+  $ingSave = new \App\Ingredient();
+  $ingSave->ingredientsFromString($ingredients, $recipe);
+
   \Session::flash('flash_message','Recipe updated!');
   return redirect('/edit/'.$request->id);
 }
 
 public function delete (Request $request) {
   $recipe = \App\Recipe::find($request->id);
+  $recipe->ingredients()->detach($request->id);
   $recipe->delete();
 
   \Session::flash('flash_message','Recipe deleted!');
@@ -143,7 +111,7 @@ public function postSearch(Request $request) {
   elseif (!empty($request->ingredient)) {
     $ingredient = \App\Ingredient::where('name', 'LIKE', '%'.$request->ingredient.'%')->first();
 
-    ## if ingreident isn't found, search under other names
+    ## if ingredient isn't found, search under other names
     if (empty($ingredient)) {
       $ingredient = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$request->ingredient.'%')->first();
     }
@@ -200,4 +168,6 @@ public function show ($id = null) {
   return view ('show')->with(['singleRecipe'=>$recipe, 'ingredientString'=>$ingString]);
 
 }
+
+
 }
