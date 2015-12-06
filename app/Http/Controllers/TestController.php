@@ -17,14 +17,17 @@ class TestController extends Controller {
 
     $crawler->filter('b')->each(function ($node) {
         $s = $node->text();
+        $s = str_replace("\xA0", ' ', $s);
+        $s = trim($s);
         $s =str_replace('Synonyms:', '', $s);
         $s = str_replace('Substitutes:', '', $s);
         $s = str_replace('Pronunciation:', '', $s);
         $s = str_replace('Notes:', '', $s);
         $s = str_replace('Equivalents:', '', $s);
-        $s = str_replace('=', '', $s);
-        $s = str_replace('  ', ' ', $s);
-        print $s."\n";
+
+        //$s = str_replace('=', '', $s);
+        //$s = str_replace(' ', '', $s);
+        echo $s."<br>";
     });
 
   }

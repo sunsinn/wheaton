@@ -43,6 +43,8 @@ Route::get('/browseingredients', 'WheatonController@browseIngredients');
 
 
 Route::get('/show/{id}', 'WheatonController@show');
-Route::get('showrecipes/{if}', 'WheatonController@showRecipes');
+Route::get('/showrecipes/{if}', 'WheatonController@showRecipes');
+
+Route::get('/populate', 'IngredientsController@populate');
 
 Route::get('/test1', 'TestController@testScrape');

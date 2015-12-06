@@ -14,8 +14,8 @@ class IngredientsTableSeeder extends Seeder
       DB::table('ingredients')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'potatoesTest',
-      'parallel_name' => 'spudsTest',
+      'name' => 'potatoTest',
+      'parallel_name' => 'spudTest',
       'category' => 'TubersTest',
 
       ]);
@@ -32,8 +32,8 @@ class IngredientsTableSeeder extends Seeder
       DB::table('ingredients')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'eggplantsTest',
-      'parallel_name' => 'auberginesTest',
+      'name' => 'eggplantTest',
+      'parallel_name' => 'aubergineTest',
       'category' => 'Fruit VegetablesTest',
 
       ]);

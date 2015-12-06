@@ -175,7 +175,7 @@
     "Oils" => "http://www.foodsubs.com/Oils.html",
     "Edible Flowers" => "http://www.foodsubs.com/Flowers.html",
     "Miscellaneous Baking" => "http://www.foodsubs.com/Misc.html",
-    "Pickles" => "http://www.foodsubs.com/Pickles.html",
+    "Pickles" => "http://www.foodsubs.com/Pickles.html", 
   ]
 
 ?>
