@@ -48,3 +48,4 @@ Route::get('/showrecipes/{if}', 'WheatonController@showRecipes');
 Route::get('/populate', 'IngredientsController@populate');
 
 Route::get('/test1', 'TestController@testScrape');
+Route::get('/test2', 'TestController@testScrape2');

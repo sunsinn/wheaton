@@ -17,16 +17,17 @@ class IngredientsController extends Controller {
     $client = new Client();
 
     $array = $this->ingredientsArray();
+    $synonyms = $this->synonymsArray();
     foreach ($array as $key => $value) {
 
       $crawler = $client->request('GET', $value);
 
-      $crawler->filter('b:not(b a)')->each(function ($node) use ($key) {
+      $crawler->filter('b')->each(function ($node) use ($key, $synonyms) {
 
         $s = $node->text();
 
         // Replaces &nbsp with a space
-        $s = str_replace("\xA0", ' ', $s);
+        $s = str_replace('&nbsp', ' ', $s);
 
         // Removes extraneous words
         $s =str_replace('Synonyms:', '', $s);
@@ -37,8 +38,17 @@ class IngredientsController extends Controller {
         $s = str_replace('Equivalents:', '', $s);
         $s = str_replace('Varieties:', '', $s);
         $s = str_replace('Latin name:', '', $s);
+        $s = str_replace('Warning:', '', $s);
 
-        $s = trim($s);
+        $s = trim($s, " \t\n\r\0\x0B\xC2\xA0");
+
+        if (($s === '') || ($s === '=')) {
+          return false;
+        }
+
+        if (!array_search($s, $synonyms)) {
+          return false;
+        }
 
         if (!strpbrk($s, '=') && !empty($s) &&  !strpbrk($s, 'See')) {
           $ingredient = new \App\Ingredient();
@@ -66,6 +76,44 @@ class IngredientsController extends Controller {
 
     }
     echo 'Finished!';
+  }
+
+  private function synonymsArray() {
+    $returnArray = '';
+    $client = new Client();
+
+    $array = $this->ingredientsArray();
+    foreach ($array as $key => $value)  {
+
+      $crawler = $client->request('GET', $value);
+
+      $crawler->filter('a')->each(function ($node) use ($returnArray) {
+
+        $s = $node->text();
+
+        // Replaces &nbsp with a space
+        $s = str_replace('&nbsp', ' ', $s);
+
+        // Removes extraneous words
+        $s =str_replace('Synonyms:', '', $s);
+        $s = str_replace('Substitutes:', '', $s);
+        $s = str_replace('Pronunciation:', '', $s);
+        $s = str_replace('Pronuncation:', '', $s);
+        $s = str_replace('Notes:', '', $s);
+        $s = str_replace('Equivalents:', '', $s);
+        $s = str_replace('Varieties:', '', $s);
+        $s = str_replace('Latin name:', '', $s);
+        $s = str_replace('Warning:', '', $s);
+
+        $s = trim($s, " \t\n\r\0\x0B\xC2\xA0");
+
+        if ($s == '') {
+          return false;
+        }
+        $returnArray .= $s;
+      }
+    }
+  return returnArray;
   }
 
   private function ingredientsArray() {
