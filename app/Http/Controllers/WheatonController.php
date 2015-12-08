@@ -40,15 +40,23 @@ class WheatonController extends Controller {
     $recipe->title = $request->title;
     $recipe->user_id = \Auth::id();
 
+    $str = $recipe->ingredients;
+    $ingredients = explode(',', $str);
+    $ingSave = new \App\Ingredient();
+    foreach ($ingredients as $ingredient) {
+      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->get();
+      if (!isset($ingToSave)) {
+        $ingToSave = \App\Ingredient::where('parallel_name','LIKE','%'.$ingredient.'%')->get();
+      }
+      if (!isset($ingToSave)) {
+        $ingToSave->name='not found';
+      }
+    }
+
     $recipe->save();
 
-    $ingSave = new \App\Ingredient();
-    $ingSave->ingredientsFromString($request->ingredients, $recipe);
-
-
-
     \Session::flash('flash_message','Recipe added!');
-    return redirect('/add');
+    return redirect('/edit/'.$recipe->id);
 }
 
 public function getEdit($id = null) {

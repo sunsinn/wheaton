@@ -14,7 +14,8 @@ class Ingredient extends Model
 
     $ingredients = explode(',', $str);
     foreach ($ingredients as $ingredient) {
-      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->first();
+      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->get();
+      
 
       ## Checks cross references if ingredient name isn't found
       if (!isset($ingToSave)) {
