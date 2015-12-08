@@ -38,6 +38,7 @@ class WheatonController extends Controller {
 
     $recipe->url = $request->url;
     $recipe->title = $request->title;
+    $recipe->user_id = \Auth::id();
 
     $recipe->save();
 
