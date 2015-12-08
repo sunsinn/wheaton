@@ -14,20 +14,22 @@ class IngredientsController extends Controller {
   }
 
   public function populate() {
+    set_time_limit(300);
     $client = new Client();
 
     $array = $this->ingredientsArray();
-    $synonyms = $this->synonymsArray();
+
     foreach ($array as $key => $value) {
 
       $crawler = $client->request('GET', $value);
+      $synonyms = $this->synonymsArray($value);
 
       $crawler->filter('b')->each(function ($node) use ($key, $synonyms) {
 
         $s = $node->text();
 
         // Replaces &nbsp with a space
-        $s = str_replace('&nbsp', ' ', $s);
+        $s = str_replace('0xa0', ' ', $s);
 
         // Removes extraneous words
         $s =str_replace('Synonyms:', '', $s);
@@ -38,15 +40,24 @@ class IngredientsController extends Controller {
         $s = str_replace('Equivalents:', '', $s);
         $s = str_replace('Varieties:', '', $s);
         $s = str_replace('Latin name:', '', $s);
+        $s = str_replace('Latin', '', $s);
         $s = str_replace('Warning:', '', $s);
+        $s = str_replace('Plural:', '', $s);
+        $s = str_replace('Cooking hints:', '', $s);
+        $s = str_replace('Links', '', $s);
+        $s = str_replace('Tips', '', $s);
+        $s = str_replace('To make your own:', '', $s);
+        $s = str_replace('Includes:', '', $s);
+        $s = str_replace('Cuts:', '', $s);
+        $s = str_replace(':', '', $s);
 
         $s = trim($s, " \t\n\r\0\x0B\xC2\xA0");
 
-        if (($s === '') || ($s === '=')) {
+        if (($s == '') || ($s == '=') || ($s == '.') || ($s == ',') || ($s == '+')) {
           return false;
         }
 
-        if (!array_search($s, $synonyms)) {
+        if (array_search($s, $synonyms)) {
           return false;
         }
 
@@ -60,10 +71,13 @@ class IngredientsController extends Controller {
           $ingredient = new \App\Ingredient();
           $ingredient->category = $key;
           $synonyms = explode('=', $s);
+          if ($synonyms[0] == '') {
+            return false;
+          }
           $name = $synonyms[0];
           $parallel_name = '';
           foreach ($synonyms as $synonym) {
-            if ($synonym != $name) {
+            if (($synonym != $name) && ($synonym != '')) {
               $parallel_name .= $synonym;
             }
           }
@@ -78,42 +92,19 @@ class IngredientsController extends Controller {
     echo 'Finished!';
   }
 
-  private function synonymsArray() {
-    $returnArray = '';
+  private function synonymsArray($url) {
     $client = new Client();
+    $crawler = $client->request('GET', $url);
+    $synArray = array();
 
-    $array = $this->ingredientsArray();
-    foreach ($array as $key => $value)  {
+    $synArray = $crawler->filter('a')->each(function ($node) use ($synArray) {
+      $s = $node->text();
+      $s = str_replace('0xa0', ' ', $s);
+      $s = trim($s, " \t\n\r\0\x0B\xC2\xA0");
+      return $s;
+    });
 
-      $crawler = $client->request('GET', $value);
-
-      $crawler->filter('a')->each(function ($node) use ($returnArray) {
-
-        $s = $node->text();
-
-        // Replaces &nbsp with a space
-        $s = str_replace('&nbsp', ' ', $s);
-
-        // Removes extraneous words
-        $s =str_replace('Synonyms:', '', $s);
-        $s = str_replace('Substitutes:', '', $s);
-        $s = str_replace('Pronunciation:', '', $s);
-        $s = str_replace('Pronuncation:', '', $s);
-        $s = str_replace('Notes:', '', $s);
-        $s = str_replace('Equivalents:', '', $s);
-        $s = str_replace('Varieties:', '', $s);
-        $s = str_replace('Latin name:', '', $s);
-        $s = str_replace('Warning:', '', $s);
-
-        $s = trim($s, " \t\n\r\0\x0B\xC2\xA0");
-
-        if ($s == '') {
-          return false;
-        }
-        $returnArray .= $s;
-      }
-    }
-  return returnArray;
+  return $synArray;
   }
 
   private function ingredientsArray() {
