@@ -41,8 +41,8 @@ class IngredientsTableSeeder extends Seeder
       DB::table('ingredients')->insert([
       'created_at' => Carbon\Carbon::now()->toDateTimeString(),
       'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
-      'name' => 'Jerusalem artichokesTest',
-      'parallel_name' => 'sunchokesTest',
+      'name' => 'Jerusalem artichokeTest',
+      'parallel_name' => 'sunchokeTest',
       'category' => 'TubersTest',
 
       ]);

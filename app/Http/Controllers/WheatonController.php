@@ -40,20 +40,10 @@ class WheatonController extends Controller {
     $recipe->title = $request->title;
     $recipe->user_id = \Auth::id();
 
-    $str = $recipe->ingredients;
-    $ingredients = explode(',', $str);
-    $ingSave = new \App\Ingredient();
-    foreach ($ingredients as $ingredient) {
-      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->get();
-      if (!isset($ingToSave)) {
-        $ingToSave = \App\Ingredient::where('parallel_name','LIKE','%'.$ingredient.'%')->get();
-      }
-      if (!isset($ingToSave)) {
-        $ingToSave->name='not found';
-      }
-    }
-
     $recipe->save();
+
+    $ingSave = new \App\Ingredient();
+    $ingSave->ingredientsFromString($request->ingredients, $recipe);
 
     \Session::flash('flash_message','Recipe added!');
     return redirect('/edit/'.$recipe->id);
@@ -86,6 +76,7 @@ public function postEdit(Request $request) {
     $request,
     [
       'url' => 'required|url',
+      'title' => 'required',
       'ingredients' => 'required',
     ]
   );
@@ -108,11 +99,11 @@ public function postEdit(Request $request) {
 
 public function delete (Request $request) {
   $recipe = \App\Recipe::find($request->id);
-  $recipe->ingredients()->detach($request->id);
+  $recipe->ingredients()->detach();
   $recipe->delete();
 
   \Session::flash('flash_message','Recipe deleted!');
-  return redirect('/');
+  return redirect('/search');
 }
 
 public function getSearch () {
@@ -122,8 +113,12 @@ public function getSearch () {
 public function postSearch(Request $request) {
 
   $recipes = new \App\Recipe();
+  if (empty($request->title) && empty($request->ingredient)){
+    \Session::flash('flash_message','Please enter a title or ingredient');
+    return view ('search');
+  }
 
-  if (!empty($request->title)) {
+  elseif (!empty($request->title)) {
     if ($request->mineall ==  'mine') {
       $recipes = \App\Recipe::where('title','LIKE','%'.$request->title.'%')->where('user_id','=',\Auth::id())->get();
     }
@@ -133,13 +128,32 @@ public function postSearch(Request $request) {
 
     return view ('search')->with('recipes', $recipes);
   }
-  elseif (!empty($request->ingredient)) {
+  else  {
 
-    $ingredient = \App\Ingredient::where('name', 'LIKE', '%'.$request->ingredient.'%')->first();
+    $ingredient = \App\Ingredient::where('name', '=', $request->ingredient)->first();
 
     ## if ingredient isn't found, search under other names
     if (empty($ingredient)) {
-      $ingredient = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$request->ingredient.'%')->first();
+      $ingredient = \App\Ingredient::where('parallel_name', '=', $request->ingredient)->first();
+    }
+
+    $emptyTrue = $ingredient->recipes()->get();
+    if ($emptyTrue->isEmpty()) {
+      $category = $ingredient->category;
+      $recipes = \App\Recipe::whereHas('ingredients', function ($f) use ($category) {
+        $f->where('category', '=', $category);
+      })->get();
+    }
+
+      if (!empty($recipes)) {
+        \Session::flash('flash_message','No recipes found with this ingredient - try using it in one of these');
+        return view ('search')->with('recipes', $recipes);
+      }
+      else {
+        \Session::flash('flash_message','No recipes found with this ingredient');
+        return view ('search');
+      }
+
     }
 
     if (empty($ingredient)) {
@@ -154,31 +168,7 @@ public function postSearch(Request $request) {
       $recipes =  $ingredient->recipes()->get();
     }
 
-
-
-    ## try broader category if no recipes are found
-    if (empty($recipes)) {
-      $category = $ingredient->category;
-      $subs = \App\Ingredient::where('category', 'LIKE', '%'.$category.'%')->get();
-      foreach ($subs as $sub) {
-        $recipes = array_merge($recipes, $sub->recipes()->get());
-      }
-      if (!empty($recipes)) {
-        \Session::flash('flash_message','No recipes found with this ingredient - try using it in one of these');
-        return view ('search')->with('recipes', $recipes);
-      }
-      else {
-        \Session::flash('flash_message','No recipes found with this ingredient');
-        return view ('search');
-      }
-
-    }
-    return view ('search')->with('recipes', $recipes);
-  }
-  else {
-    \Session::flash('flash_message','Please enter a title or ingredient');
-  }
-  return view ('search');
+  return view ('search')->with('recipes', $recipes);
 
 }
 
@@ -193,7 +183,7 @@ public function browseMyRecipes () {
 }
 
 public function browseIngredients () {
-  $ingredients = \App\Ingredient::orderBy('name')->get();
+  $ingredients = \App\Ingredient::has('recipes')->orderBy('name')->get();
   return view ('show')->with('ingredients', $ingredients);
 }
 

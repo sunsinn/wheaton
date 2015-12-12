@@ -14,13 +14,13 @@ class Ingredient extends Model
 
     $ingredients = explode(',', $str);
     foreach ($ingredients as $ingredient) {
-      $ingToSave = \App\Ingredient::where('name','LIKE','%'.$ingredient.'%')->get();
-      
+      $ingToSave = \App\Ingredient::where('name','=', trim($ingredient))->first();
 
-      ## Checks cross references if ingredient name isn't found
+      ## Check singular form if necessary
       if (!isset($ingToSave)) {
-        $ingToSave = \App\Ingredient::where('parallel_name', 'LIKE', '%'.$ingredient.'%')->first();
+        $ingToSave = \App\Ingredient::where('name', '=', trim(str_singular($ingredient)) )->first();
       }
+
 
       ## Links ingredient to recipe, or adds new ingredient and links
       if (isset($ingToSave)) {
