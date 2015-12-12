@@ -137,29 +137,33 @@ public function postSearch(Request $request) {
       $ingredient = \App\Ingredient::where('parallel_name', '=', $request->ingredient)->first();
     }
 
+    if (empty($ingredient)) {
+      \Session::flash('flash_message','Ingredient not found');
+      return view ('search');
+    }
+
     $emptyTrue = $ingredient->recipes()->get();
     if ($emptyTrue->isEmpty()) {
       $category = $ingredient->category;
       $recipes = \App\Recipe::whereHas('ingredients', function ($f) use ($category) {
         $f->where('category', '=', $category);
       })->get();
-    }
 
-      if (!empty($recipes)) {
-        \Session::flash('flash_message','No recipes found with this ingredient - try using it in one of these');
-        return view ('search')->with('recipes', $recipes);
-      }
-      else {
+      if ($recipes->isEmpty()) {
         \Session::flash('flash_message','No recipes found with this ingredient');
         return view ('search');
       }
+      else {
+        \Session::flash('flash_message','No recipes found with this ingredient - try using it in one of these');
+        return view ('search')->with('recipes', $recipes);
+      }
 
     }
 
-    if (empty($ingredient)) {
-      \Session::flash('flash_message','Ingredient not found');
-      return view ('search');
+
+
     }
+
 
     if ($request->mineall ==  'mine') {
       $recipes =  $ingredient->recipes()->where('user_id','=',\Auth::id())->get();
