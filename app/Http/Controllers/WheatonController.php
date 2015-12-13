@@ -13,7 +13,8 @@ class WheatonController extends Controller {
   }
 
   public function getIndex() {
-    return view('index');
+    $recipes = \App\Recipe::orderBy('id', 'desc')->take(5)->get();
+    return view('index')->with('recipes', $recipes);
   }
 
   public function getAdd() {
