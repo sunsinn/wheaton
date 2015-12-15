@@ -12,7 +12,7 @@
 
     {{-- Yield any page specific CSS files or anything else you might want in the <head> --}}
     @yield('head')
-    <link href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css' rel='stylesheet'>
+    <link href='https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cerulean/bootstrap.min.css' rel='stylesheet'>
     <link href='/css/wheaton.css' rel='stylesheet'>
 </head>
 <body>

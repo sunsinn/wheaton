@@ -3,3 +3,5 @@
 Homestead.yaml
 Homestead.json
 .env
+/public/testscrape.php
+/App/Http/Controllers/TestController.php

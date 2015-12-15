@@ -20,42 +20,42 @@ class WheatonController extends Controller {
   public function getAdd() {
 
     if(!\Auth::check() ) {
-          \Session::flash('flash_message','You have to be logged in to add or edit recipes');
-          return redirect('/');
-      }
+      \Session::flash('flash_message','You have to be logged in to add or edit recipes');
+      return redirect('/');
+    }
     return view('add');
   }
 
   public function postAdd(Request $request) {
     $this->validate(
-      $request,
-      [
-        'url' => 'required|url',
-        'ingredients' => 'required',
-      ]
-    );
+    $request,
+    [
+      'url' => 'required|url',
+      'ingredients' => 'required',
+    ]
+  );
 
-    $recipe = new \App\Recipe();
+  $recipe = new \App\Recipe();
 
-    $recipe->url = $request->url;
-    $recipe->title = $request->title;
-    $recipe->user_id = \Auth::id();
+  $recipe->url = $request->url;
+  $recipe->title = $request->title;
+  $recipe->user_id = \Auth::id();
 
-    $recipe->save();
+  $recipe->save();
 
-    $ingSave = new \App\Ingredient();
-    $ingSave->ingredientsFromString($request->ingredients, $recipe);
+  $ingSave = new \App\Ingredient();
+  $ingSave->ingredientsFromString($request->ingredients, $recipe);
 
-    \Session::flash('flash_message','Recipe added!');
-    return redirect('/edit/'.$recipe->id);
+  \Session::flash('flash_message','Recipe added!');
+  return redirect('/edit/'.$recipe->id);
 }
 
 public function getEdit($id = null) {
 
   if(!\Auth::check() ) {
-        \Session::flash('flash_message','You have to be logged in to add or edit recipes');
-        return redirect('/');
-    }
+    \Session::flash('flash_message','You have to be logged in to add or edit recipes');
+    return redirect('/');
+  }
   $recipe = \App\Recipe::find($id);
   if(is_null($recipe)) {
     \Session::flash('flash_message','Recipe not found.');
@@ -74,28 +74,28 @@ public function getEdit($id = null) {
 public function postEdit(Request $request) {
 
   $this->validate(
-    $request,
-    [
-      'url' => 'required|url',
-      'title' => 'required',
-      'ingredients' => 'required',
-    ]
-  );
+  $request,
+  [
+    'url' => 'required|url',
+    'title' => 'required',
+    'ingredients' => 'required',
+  ]
+);
 
-  $recipe = \App\Recipe::find($request->id);
+$recipe = \App\Recipe::find($request->id);
 
-  $recipe->url = $request->url;
-  $recipe->title = $request->title;
+$recipe->url = $request->url;
+$recipe->title = $request->title;
 
-  $recipe->save();
+$recipe->save();
 
-  $ingredients = $request->ingredients;
-  $recipe->ingredients()->detach();
-  $ingSave = new \App\Ingredient();
-  $ingSave->ingredientsFromString($ingredients, $recipe);
+$ingredients = $request->ingredients;
+$recipe->ingredients()->detach();
+$ingSave = new \App\Ingredient();
+$ingSave->ingredientsFromString($ingredients, $recipe);
 
-  \Session::flash('flash_message','Recipe updated!');
-  return redirect('/edit/'.$request->id);
+\Session::flash('flash_message','Recipe updated!');
+return redirect('/edit/'.$request->id);
 }
 
 public function delete (Request $request) {
@@ -163,15 +163,15 @@ public function postSearch(Request $request) {
 
 
 
-    }
+  }
 
 
-    if ($request->mineall ==  'mine') {
-      $recipes =  $ingredient->recipes()->where('user_id','=',\Auth::id())->get();
-    }
-    else {
-      $recipes =  $ingredient->recipes()->get();
-    }
+  if ($request->mineall ==  'mine') {
+    $recipes =  $ingredient->recipes()->where('user_id','=',\Auth::id())->get();
+  }
+  else {
+    $recipes =  $ingredient->recipes()->get();
+  }
 
   return view ('search')->with('recipes', $recipes);
 
