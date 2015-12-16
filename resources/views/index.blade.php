@@ -17,5 +17,5 @@
       <a href = '/show/{{ $recipe->id }}'>{{ $recipe->title }}</a><br>
     @endforeach
     <br><br>
-    <p></p>Inspired by the work of <a href = "http://www.nytimes.com/2015/11/01/magazine/the-archive-of-eating.html?_r=0">Barbara Kectcham Wheaton</a></p></p>
+    <p></p>Inspired by the work of <a href = "http://www.nytimes.com/2015/11/01/magazine/the-archive-of-eating.html?_r=0">Barbara Ketcham Wheaton</a></p></p>
 @stop

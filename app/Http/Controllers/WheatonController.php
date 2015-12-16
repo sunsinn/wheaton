@@ -133,21 +133,21 @@ class WheatonController extends Controller {
     }
     else  {
 
-      $ingredient = \App\Ingredient::where('name', '=', $request->ingredient)->first();
+      $ingredient = $request->ingredient;
+      $recipes = \App\Recipe::whereHas('ingredients', function ($f) use ($ingredient) {
+        $f->where('name', 'LIKE', '%'.$ingredient.'%');
+      })->get();
 
       ## if ingredient isn't found, search under other names
-      if (empty($ingredient)) {
-        $ingredient = \App\Ingredient::where('parallel_name', '=', $request->ingredient)->first();
+      if ($recipes->isEmpty()) {
+        $recipes = \App\Recipe::whereHas('ingredients', function ($f) use ($ingredient) {
+          $f->where('parallel_name', 'LIKE', '%'.$ingredient.'%');
+        })->get();
       }
 
-      if (empty($ingredient)) {
-        \Session::flash('flash_message','Ingredient not found');
-        return view ('search');
-      }
-
-      $emptyTrue = $ingredient->recipes()->get();
-      if ($emptyTrue->isEmpty()) {
-        $category = $ingredient->category;
+      $categoryIngredient = \App\Ingredient::where('name', '=', $ingredient)->first();
+      if ($recipes->isEmpty() && isset($categoryIngredient)) {
+        $category = $categoryIngredient->category;
         $recipes = \App\Recipe::whereHas('ingredients', function ($f) use ($category) {
           $f->where('category', '=', $category);
         })->get();
@@ -163,11 +163,12 @@ class WheatonController extends Controller {
       }
     }
 
-    if ($request->mineall ==  'mine') {
-      $recipes =  $ingredient->recipes()->where('user_id','=',\Auth::id())->get();
+    if ($recipes->isEmpty()) {
+      \Session::flash('flash_message','No recipes found with this ingredient');
+      return view ('search');
     }
-    else {
-      $recipes =  $ingredient->recipes()->get();
+    if ($request->mineall ==  'mine') {
+      $recipes =  $recipes()->where('user_id','=',\Auth::id())->get();
     }
 
     return view ('search')->with('recipes', $recipes);
