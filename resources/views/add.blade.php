@@ -47,7 +47,7 @@
 
 
     <div class='form-group'>
-        <label for='tags'> Ingredients (separated by commas):</label>
+        <label for='tags'> Ingredients:</label>
         <input
             type='text'
             size='75'
@@ -55,6 +55,7 @@
             name="ingredients"
             value='{{ old('ingredients','') }}'
         >
+        <br>(Enter ingredients in singular form, without spaces and separated by commas. Example: carrot,broccoli,onion,tomato)
     </div>
     <button type="submit" class="btn btn-primary">Add it!</button>
 </form>

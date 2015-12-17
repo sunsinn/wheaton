@@ -30,8 +30,8 @@ class WheatonController extends Controller {
     $this->validate(
       $request,
       [
-        'url' => 'required|url',
         'title' => 'required',
+        'url' => 'required|url',
         'ingredients' => 'required',
       ]
     );
@@ -67,9 +67,9 @@ class WheatonController extends Controller {
     $ingredients = $recipe->ingredients()->get();
     $ingString = '';
     foreach ($ingredients as $ingredient) {
-      $ingString .= $ingredient->name.', ';
+      $ingString .= $ingredient->name.',';
     }
-    $ingString = chop($ingString, ', ');
+    $ingString = chop($ingString, ',');
     return view('edit')->with(['recipe'=>$recipe, 'ingredients'=>$ingString]);
   }
 
@@ -78,8 +78,8 @@ class WheatonController extends Controller {
     $this->validate(
     $request,
     [
-      'url' => 'required|url',
       'title' => 'required',
+      'url' => 'required|url',
       'ingredients' => 'required',
     ]
   );
@@ -215,7 +215,7 @@ class WheatonController extends Controller {
     $ingredients = $recipe->ingredients()->get();
     $ingString = '';
     foreach ($ingredients as $ingredient) {
-      $ingString .= $ingredient->name.', ';
+      $ingString .= $ingredient->name.',';
     }
     $ingString = chop($ingString, ', ');
     return view ('show')->with(['singleRecipe'=>$recipe, 'ingredientString'=>$ingString]);
